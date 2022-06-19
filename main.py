@@ -9,7 +9,7 @@ db = firestore.client()
 
 @app.route('/ping')
 def getPing():
-    return 'pong'
+    return 'Hello world!'
 
 @app.route('/usuario' , methods=['GET'])
 def getUsers():
@@ -17,16 +17,6 @@ def getUsers():
     for user in auth.list_users().iterate_all():
         users[f'{user.email}'] = user.uid
     return jsonify(users), 200
-
-@app.route('/infoUser', methods=['GET'])
-def getUsers():
-    todo_id = request.args.get('uid')
-    todo_ref = db.collection(u'usuario').document(todo_id).collection(u'infoUser')
-    try:
-        all_todos = [doc.to_dict() for doc in todo_ref.stream()]
-        return jsonify(all_todos), 200
-    except Exception:
-        return render_template('data_error.html')
 
 if __name__ == '__main__':
     app.run(debug= True, port= 4000)
